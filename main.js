@@ -1,81 +1,78 @@
-/*
-//string
-let firstName = 'Zar';
-firstName = 'Amateo';
-const lastName = 'Goodman';
+const $btn = document.getElementById('btn-kick');
 
-console.log(firstName);
+const createPokemon = (name, defaultHP, damageHP, elHP, elProgressbar) => ({
+    name,
+    defaultHP,
+    damageHP,
+    elHP,
+    elProgressbar,
+}); 
 
-console.log(typeof firstName);
+const character = createPokemon(
+    'Pikachu',
+    100,
+    100,
+    document.getElementById('health-character'),
+    document.getElementById('progressbar-character')
+);
 
-//number
+const enemy = createPokemon(
+    'Charmander', 
+    100, 
+    100, 
+    document.getElementById('health-enemy'), 
+    document.getElementById('progressbar-enemy')
+);   
 
-const num = 5;
-const float = 5.5;
-console.log(typeof num);
-console.log(typeof float);
+$btn.addEventListener('click', function () {
+    console.log('Kick');
+    changeHP(random(20), character);
+    changeHP(random(20), enemy);
+});
 
-const infinity = 4/0;
-const notANumber = 'asd' * 8;
+const $ult = document.createElement('button');
+$ult.classList.add('button');
+$ult.style.marginTop = '20px';
+$ult.innerHTML = 'Ultimate';
+$ult.addEventListener('click', function () {
+    changeHP(100, enemy);
+});
+$btn.parentElement.style.flexDirection = 'column';
+$btn.parentElement.appendChild($ult);
 
-console.log(infinity);
-console.log(notANumber);
-console.log(typeof infinity);
-console.log(typeof notANumber);
+function init() {
+    console.log('Start Game!');
+    renderHP(character);
+    renderHP(enemy);
+}
 
-//Boolean
+function renderHP(person) {
+    renderHPLife(person);
+    renderProgressbarHP(person);
+}
 
-const isMarried = true;
-const hasDog = false;
+function renderHPLife(person) {
+    person.elHP.innerText = person.damageHP + ' / ' + person.defaultHP;
+}
 
-console.log(typeof isMarried);
-console.log(typeof hasDog);
+function renderProgressbarHP(person) {
+    person.elProgressbar.style.width = person.damageHP + '%';
+}
 
-//BigInt & Symbol
+function changeHP(count, person) {
+    if (person.damageHP < count) {
+        person.damageHP = 0;
+        alert('Poor fellow ' + person.name + ', lose fight!');
+        $btn.disabled = true;
+        $ult.disabled = true;
+    } else {
+        person.damageHP -= count;
+    }
+    renderHP(person);
+}
 
-const symb = Symbol();
-const bigint = BigInt(2);
-console.log(typeof symb);
-console.log(typeof bigint);
+function random(num) {
+    return Math.ceil(Math.random() * num);
+}
 
-//null && undefined
-
-let notValue;
-console.log(notValue);
-console.log(typeof notValue);
-
-const nothing = null;
-console.log(nothing);
-console.log(typeof nothing);
-
-//object
-
-const obj = {};
-console.log(typeof obj);
-
-const arr = [];
-const fn = function () {}
-console.log(typeof arr);
-console.log(typeof fn);*/
-
-/*
-console.log('Maroon ' + 5);
-console.log('5' + '5');
-console.log(+'5' + 5);
-
-
-console.log(Boolean(''));
-console.log(Boolean(' '));
-console.log(Boolean(0));
-console.log(Boolean(null));
-console.log(!!'asd');
-console.log(!'asd');*/
-
-/*
-console.log(10 % 7);
-
-let age = 27;
-console.log(++age);
-
-c = c + a;
-c += a;*/
+init();
